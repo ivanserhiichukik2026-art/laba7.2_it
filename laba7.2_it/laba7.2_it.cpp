@@ -1,53 +1,46 @@
-
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
 #include <ctime>
-
 using namespace std;
 
-void Create(int** a, int rowCount, int colCount, int Low, int High)
+void Create(int** a, int n, int m, int low, int high) // випадкові числа
 {
-    for (int i = 0; i < rowCount; i++)
-        for (int j = 0; j < colCount; j++)
-            a[i][j] = Low + rand() % (High - Low + 1);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            a[i][j] = low + rand() % (high - low + 1); // -10 + rand() % 31
 }
 
-void Print(int** a, int rowCount, int colCount)
+void Print(int** a, int n, int m) // виведення
 {
-    cout << endl;
-
-    for (int i = 0; i < rowCount; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < colCount; j++)
+        for (int j = 0; j < m; j++)
             cout << setw(5) << a[i][j];
 
         cout << endl;
     }
-
     cout << endl;
 }
 
-int MaxColumn(int** a, int rowCount, int j)
+int MaxColumn(int** a, int n, int j) // знаходження максимума в конкретному стовпці
 {
     int max = a[0][j];
 
-    for (int i = 1; i < rowCount; i++)
-    {
+    for (int i = 1; i < n; i++) // i = 1 , перший стовпець вже максимум
         if (a[i][j] > max)
             max = a[i][j];
-    }
 
     return max;
 }
 
-int SearchMinMax(int** a, int rowCount, int colCount)
+int SearchMinMax(int** a, int n, int m) // знаходженння найменшого серед максимумів непарних стовпців
 {
-    int min = MaxColumn(a, rowCount, 1);
+    int min = MaxColumn(a, n, 1); // знаходження мінумуму в стовпці з індексом 1 , позначення за перший мінимум
 
-    for (int j = 3; j < colCount; j += 2)
+    for (int j = 3; j < m; j += 2) // j += 2 переходимо через один стовпець , щоб не шукати в парних
     {
-        int max = MaxColumn(a, rowCount, j);
+        int max = MaxColumn(a, n, j);
 
         if (max < min)
             min = max;
@@ -60,26 +53,24 @@ int main()
 {
     srand((unsigned)time(NULL));
 
-    int rowCount = 5;
-    int colCount = 6;
-    int Low = -10;
-    int High = 20;
+    int n = 5, m = 6;
+    int low = -10, high = 20; // границі для випадкових чисел
 
-    int** a = new int* [rowCount];
+    int** a = new int* [n];
 
-    for (int i = 0; i < rowCount; i++)
-        a[i] = new int[colCount];
+    for (int i = 0; i < n; i++)
+        a[i] = new int[m];
 
-    Create(a, rowCount, colCount, Low, High);
+    Create(a, n, m, low, high);
 
-    cout << "Matrix:";
-    Print(a, rowCount, colCount);
+    cout << "Matrix:" << endl;
+    Print(a, n, m);
 
-    int result = SearchMinMax(a, rowCount, colCount);
+    int result = SearchMinMax(a, n, m);
 
     cout << "Result = " << result << endl;
 
-    for (int i = 0; i < rowCount; i++)
+    for (int i = 0; i < n; i++)
         delete[] a[i];
 
     delete[] a;
