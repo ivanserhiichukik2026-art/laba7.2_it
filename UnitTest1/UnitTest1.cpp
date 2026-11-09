@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-
 #include "C:\Users\qq\source\repos\laba7.2_it\laba7.2_it\laba7.2_it.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
